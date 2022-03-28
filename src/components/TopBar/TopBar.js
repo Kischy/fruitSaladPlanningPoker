@@ -12,7 +12,6 @@ export default function TopBar(props) {
 
         <View style={styles.container}>
             <Logo style={{ height: height }} />
-            <Button style={{ height: height * 0.5, width: width * 0.15 }} title={"Start new game"} />
         </View >
     );
 };
@@ -22,6 +21,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        flexWrap: "wrap"
+        flexWrap: "wrap",
     },
 })

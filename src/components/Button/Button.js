@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Text, Pressable, StyleSheet } from "react-native";
+import Colors from "./../../colors/colors"
 
 
 export default function Button(props) {
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: '#4b6144',
+        backgroundColor: Colors.forestGreen,
     },
     text: {
         color: 'white',

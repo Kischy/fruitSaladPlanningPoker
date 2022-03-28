@@ -1,12 +1,13 @@
 import React from "react";
 import { Text, View, Image, StyleSheet } from "react-native";
+import Colors from "./../../colors/colors"
 
 export default function Logo(props) {
     return (
 
         <View style={styles.container}>
             <Image
-                style={{ width: props.style.height, height: props.style.height }}
+                style={{ width: props.style.height, height: props.style.height, backgroundColor: Colors.backgroundGrey }}
                 source={require('./img/fruit.png')}
             />
             <View style={styles.textContainer}>
@@ -32,13 +33,13 @@ const styles = StyleSheet.create({
     loveAgileText: {
         fontFamily: "RobotoMono_400Regular",
         height: "70%",
-        color: "#c44340",
+        color: Colors.textRed,
     },
 
     fruitPlaningPokerText: {
         fontFamily: "Roboto_400Regular",
         height: "30%",
-        color: "#4b6144",
+        color: Colors.forestGreen,
 
     },
 })

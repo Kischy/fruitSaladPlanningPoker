@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, useWindowDimensions, StyleSheet, StatusBar, Text } from 'react-native'
 import { TopBar, Button } from '../../components';
-import authenticateAnonymousUser from '../../firebase/authenticateAnonymously';
+import createNewRoom from '../../firebase/createNewRoom';
 
 
 export default function HomeScreen({ navigation }) {
@@ -19,7 +19,11 @@ export default function HomeScreen({ navigation }) {
                 <Text style={[styles.textBody, { fontSize: fontSizeScale * 0.025 }]}>🍇🍏🍒🍍🍉🍅🥑</Text>
             </View>
             <View style={{ alignItems: "center" }}>
-                <Button style={{ height: height * 0.1, width: width * 0.15 }} title={"Start new game"} onPress={() => authenticateAnonymousUser()} />
+                <Button style={{ height: height * 0.1, width: width * 0.15 }} 
+                title={"Start new game"} 
+                onPress={async () => {
+                    await createNewRoom();
+                    navigation.navigate("Details")}} />
             </View>
         </View >
     )
