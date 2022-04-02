@@ -5,17 +5,16 @@ import { useFonts, Roboto_400Regular, Roboto_500Medium, Roboto_700Bold } from '@
 import { RobotoMono_400Regular } from '@expo-google-fonts/roboto-mono';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HomeScreen } from './src/screens';
-import { roomCodeKey } from './src/utility/asyncstorageKeys';
 
 const Stack = createNativeStackNavigator();
 
 
-function DetailsScreen({ navigation }) {
+function DetailsScreen({ route, navigation }) {
+  const roomCode = route.params.roomCode;
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>roomCode</Text>
+      <Text>{roomCode}</Text>
     </View>
   );
 }

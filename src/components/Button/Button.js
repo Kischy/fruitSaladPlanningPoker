@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         elevation: 3,
         backgroundColor: Colors.forestGreen,
+        margin: "0.3%"
     },
     text: {
         color: 'white',
