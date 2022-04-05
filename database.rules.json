@@ -1,10 +1,13 @@
 {
   "rules": {
-    "users": {
-      "$uid": {
-        // Allow only authenticated content owners access to their data
-        ".read": "false",
-        ".write": "false"
+    "rooms": {
+      "$roomid": {
+        ".read": "root.child('rooms').child($roomid).child('users').child(auth.uid).exists()",
+        "$users": {
+          "$uid": {
+            ".write": "$uid === auth.uid",
+          }
+        }
       }
     }
   }
