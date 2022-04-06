@@ -22,7 +22,7 @@ export default function Cards(props) {
         newSelected[index] = !selected[index];
         setSelected([...newSelected]);
         if(newSelected[index] && onSelect !== null) onSelect(titles[index]);
-        else if(newSelected[index] == false && onSelect !== null) onSelect("");
+        else if(newSelected[index] == false && onSelect !== null) onSelect(null);
     };
 
     const renderCards = () => {

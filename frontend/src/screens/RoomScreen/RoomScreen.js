@@ -6,19 +6,27 @@ import {
     StatusBar,
     Text,
 } from "react-native";
-import { TopBar, Cards, Card } from "../../components";
+import { TopBar, Cards, Card, Button } from "../../components";
 import firebaseApp from "../../firebase/config"
 import { getDatabase, onValue, ref, update  } from 'firebase/database'
 import { getAuth  } from 'firebase/auth'
 
 const db = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp);
+const possGameStates = {
+    selectionPhase: 0,
+    cardsRevealed: 1,
+}
 
 export default function RoomScreen({ route, navigation }) {
     const { height, width } = useWindowDimensions();
     const roomCode = route.params.roomCode;
-    const cardWidth = width * 0.075;
+    const cardSizeTrigger = width / height;
+    const cardWidth = cardSizeTrigger > 0.75 ? width * 0.1 : width * 0.15;
     const cardHeigth = cardWidth * 2.0;
+
+    const buttonWidth = width * 0.2;
+    const buttonHeigth = height * 0.1;
     const [roomState, setRoomState] = useState(null); 
     const roomRef = ref(db, '/rooms/' + roomCode);
     const userAreaRef = ref(db,'/rooms/' + roomCode + "/users/" + auth.currentUser.uid);
@@ -26,9 +34,20 @@ export default function RoomScreen({ route, navigation }) {
     useEffect(async () => {
         onValue(roomRef, sn => {
             setRoomState(sn.val());
-            // console.log(sn.val());
          });
     },[]);
+
+    const renderGameControlButton = () => {
+        if(roomState === null) return;
+        const title = roomState.gameState === possGameStates.selectionPhase ? "Reveal cards" : "Start new game";
+        const newGameState = roomState.gameState === possGameStates.selectionPhase ? possGameStates.cardsRevealed : possGameStates.selectionPhase;
+        return (<Button
+            style={{ height: buttonHeigth, width: buttonWidth }}
+            title={title}
+            onPress={async () => {
+                await update(roomRef,{gameState: newGameState});
+            }}/>);
+    }
 
     const renderOtherUsersCards = () => {
         if(roomState === null) return [];
@@ -37,8 +56,8 @@ export default function RoomScreen({ route, navigation }) {
             cards.push(
                 <Card
                     key={key}
-                    title={value.hasOwnProperty("selectedCard") ? value.selectedCard : ""}
-                    selected={true}
+                    title={roomState.gameState === possGameStates.cardsRevealed && value.hasOwnProperty("selectedCard") ? value.selectedCard : ""}
+                    selected={value.hasOwnProperty("selectedCard") && value.selectedCard !== null ? true : false}
                     style={{
                         height: cardHeigth,
                         width: cardWidth,
@@ -62,6 +81,9 @@ export default function RoomScreen({ route, navigation }) {
                 <View style={styles.containerBodyTop}>
                     {renderOtherUsersCards()}
                 </View>
+                <View style={styles.containerBodyMiddle}>
+                    {renderGameControlButton()}
+                </View>
                 <View style={styles.containerBodyBottom}>
                     <Cards
                         titles={roomState === null ? ["?"] : roomState.cardValues}
@@ -84,6 +106,11 @@ const styles = StyleSheet.create({
     containerBody: {
         width: "100%",
         flexDirection: "column",
+    },
+    containerBodyMiddle: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "center",
     },
     containerBodyTop: {
         width: "100%",

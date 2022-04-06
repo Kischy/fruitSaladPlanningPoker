@@ -6,10 +6,11 @@ import Button from "../Button/Button";
 export default function TopBar(props) {
   let height = props.style.height;
   let width = props.style.width;
+  let logoDim = (height + width * 0.025) * 0.8;
 
   return (
     <View style={styles.container}>
-      <Logo style={{ height: height }} navigation={props.navigation} />
+      <Logo style={{ height: logoDim }} navigation={props.navigation} />
     </View>
   );
 }

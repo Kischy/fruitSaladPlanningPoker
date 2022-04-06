@@ -3,6 +3,9 @@
     "rooms": {
       "$roomid": {
         ".read": "root.child('rooms').child($roomid).child('users').child(auth.uid).exists()",
+        "gameState": {
+          ".write": "root.child('rooms').child($roomid).child('users').child(auth.uid).exists()",
+        },
         "$users": {
           "$uid": {
             ".write": "$uid === auth.uid",
