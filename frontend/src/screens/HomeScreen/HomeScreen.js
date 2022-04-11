@@ -124,7 +124,7 @@ export default function HomeScreen({ navigation }) {
             ]}
             placeholder="Enter room code"
             onChangeText={(text) => {
-              setInputRoomKey(text);
+              setInputRoomKey(text.trim());
             }}
           />
         </View>
