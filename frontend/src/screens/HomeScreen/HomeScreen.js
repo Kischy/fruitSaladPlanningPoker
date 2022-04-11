@@ -34,35 +34,35 @@ export default function HomeScreen({ navigation }) {
       />
 
       <Modal
-          animationType = {"slide"}
-          transparent={false}
-          visible={roomDialogVisible}
-          onRequestClose={() => { setRoomDialogVisible(false); } }
-          >
-          <View style={[styles.modalView]}>
+        animationType={"slide"}
+        transparent={false}
+        visible={roomDialogVisible}
+        onRequestClose={() => { setRoomDialogVisible(false); }}
+      >
+        <View style={[styles.modalView]}>
 
-      <Text style={[styles.textBody, { fontSize: fontSizeScale * 0.025 }]}>Create new room</Text>
-      <View style={{padding:"1%", flexDirection: "row"}}>
-      <Button
-          style={{ height: buttonHeigth/2, width: buttonWidth * 0.75 }}
-          title={"Standard fruit"}
-          onPress={() => {
-            setInputCards("🍇, 🍏 ,🍒 ,🍍 ,🍉 ,🍅 , 🥑");
-          }}
-        />
-          <Button
-          style={{ height: buttonHeigth/2, width: buttonWidth * 0.75 }}
-          title={"Fibonacci"}
-          onPress={() => {
-            setInputCards("0, 1, 2, 3, 5, 8, 13, 21, 34, ?");
-          }}
-        />
-      </View>
-      <TextInput
+          <Text style={[styles.textBody, { fontSize: fontSizeScale * 0.025 }]}>Create new room</Text>
+          <View style={{ padding: "1%", flexDirection: "row" }}>
+            <Button
+              style={{ height: buttonHeigth / 2, width: buttonWidth * 0.75 }}
+              title={"Standard fruit"}
+              onPress={() => {
+                setInputCards("🍇, 🍏 ,🍒 ,🍍 ,🍉 ,🍅 , 🥑");
+              }}
+            />
+            <Button
+              style={{ height: buttonHeigth / 2, width: buttonWidth * 0.75 }}
+              title={"Fibonacci"}
+              onPress={() => {
+                setInputCards("0, 1, 2, 3, 5, 8, 13, 21, 34, ?");
+              }}
+            />
+          </View>
+          <TextInput
             style={[
               styles.joinRoomInput,
               {
-                height: buttonHeigth/2,
+                height: buttonHeigth / 2,
                 width: buttonWidth * 2,
                 fontSize: fontSizeScale * 0.02,
               },
@@ -73,15 +73,15 @@ export default function HomeScreen({ navigation }) {
               setInputCards(text);
             }}
           />
-        <Button
-          style={{ height: buttonHeigth, width: buttonWidth }}
-          title={"Create"}
-          onPress={async () => {
-            const roomCode = await createNewRoom(inputCards);
-            navigation.navigate("Room", { roomCode: roomCode });
-            setRoomDialogVisible(false);
-          }}
-        />
+          <Button
+            style={{ height: buttonHeigth, width: buttonWidth }}
+            title={"Create"}
+            onPress={async () => {
+              const roomCode = await createNewRoom(inputCards);
+              navigation.navigate("Room", { roomCode: roomCode });
+              setRoomDialogVisible(false);
+            }}
+          />
         </View>
       </Modal>
 
@@ -90,7 +90,7 @@ export default function HomeScreen({ navigation }) {
           🍇🍏🍒🍍🍉🍅🥑
         </Text>
         <Text style={[styles.textBody, { fontSize: fontSizeScale * 0.05 }]}>
-          Fruit salad planning poker for agile developpement
+          Fruit salad planning poker for agile development
         </Text>
         <Text style={[styles.textBody, { fontSize: fontSizeScale * 0.025 }]}>
           🍇🍏🍒🍍🍉🍅🥑
