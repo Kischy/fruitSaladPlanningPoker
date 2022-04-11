@@ -10,6 +10,7 @@ import { TopBar, Cards, Card, Button } from "../../components";
 import firebaseApp from "../../firebase/config"
 import { getDatabase, onValue, ref, update  } from 'firebase/database'
 import { getAuth  } from 'firebase/auth'
+import {get_value_by_ratio_triggers} from "./../../proportion"
 
 const db = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp);
@@ -21,8 +22,7 @@ const possGameStates = {
 export default function RoomScreen({ route, navigation }) {
     const { height, width } = useWindowDimensions();
     const roomCode = route.params.roomCode;
-    const cardSizeTrigger = width / height;
-    const cardWidth = cardSizeTrigger > 0.75 ? width * 0.1 : width * 0.15;
+    const cardWidth = width * get_value_by_ratio_triggers([0.175,0.15,0.125,0.085,0.065]);
     const cardHeigth = cardWidth * 2.0;
 
     const buttonWidth = width * 0.2;
@@ -75,8 +75,9 @@ export default function RoomScreen({ route, navigation }) {
             <TopBar
                 style={{ height: height * 0.1, width: width }}
                 navigation={navigation}
+                text={"Room"}
+                subText={roomCode}
             />
-            <Text>{roomCode}</Text>
             <View style={styles.containerBody}>
                 <View style={styles.containerBodyTop}>
                     {renderOtherUsersCards()}
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
     containerBody: {
         width: "100%",
         flexDirection: "column",
+
     },
     containerBodyMiddle: {
         width: "100%",
@@ -114,12 +116,11 @@ const styles = StyleSheet.create({
     },
     containerBodyTop: {
         width: "100%",
-        height: "50%",
         flexDirection: "row",
-        justifyContent:"center"
+        justifyContent:"center",
+
     },
     containerBodyBottom: {
         width: "100%",
-        height: "30%",
     },
 });

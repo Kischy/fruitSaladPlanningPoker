@@ -5,9 +5,9 @@ import { getAuth, signInAnonymously } from "firebase/auth";
 const auth = getAuth(firebaseApp);
 const functions = getFunctions(firebaseApp, "europe-west1");
 
-export async function createNewRoom() {
+export async function createNewRoom(cardSymbols) {
   await signInAnonymously(auth);
-  const result = await httpsCallable(functions, "createNewRoom")();
+  const result = await httpsCallable(functions, "createNewRoom")({ cards: cardSymbols });
   return result.data;
 }
 

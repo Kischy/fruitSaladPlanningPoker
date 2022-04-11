@@ -6,6 +6,7 @@ import {
   StatusBar,
   Text,
   TextInput,
+  Modal
 } from "react-native";
 import { TopBar, Button } from "../../components";
 import {
@@ -17,6 +18,8 @@ import Colors from "./../../colors/colors";
 export default function HomeScreen({ navigation }) {
   const { height, width } = useWindowDimensions();
   const [inputRoomCode, setInputRoomKey] = useState("");
+  const [inputCards, setInputCards] = useState("");
+  const [roomDialogVisible, setRoomDialogVisible] = useState(false);
   const fontSizeScale = 0.5 * (height + width);
 
   const buttonWidth = width * 0.2;
@@ -29,6 +32,59 @@ export default function HomeScreen({ navigation }) {
         style={{ height: height * 0.1, width: width }}
         navigation={navigation}
       />
+
+      <Modal
+          animationType = {"slide"}
+          transparent={false}
+          visible={roomDialogVisible}
+          onRequestClose={() => { setRoomDialogVisible(false); } }
+          >
+          <View style={[styles.modalView]}>
+
+      <Text style={[styles.textBody, { fontSize: fontSizeScale * 0.025 }]}>Create new room</Text>
+      <View style={{padding:"1%", flexDirection: "row"}}>
+      <Button
+          style={{ height: buttonHeigth/2, width: buttonWidth * 0.75 }}
+          title={"Standard fruit"}
+          onPress={() => {
+            setInputCards("🍇, 🍏 ,🍒 ,🍍 ,🍉 ,🍅 , 🥑");
+          }}
+        />
+          <Button
+          style={{ height: buttonHeigth/2, width: buttonWidth * 0.75 }}
+          title={"Fibonacci"}
+          onPress={() => {
+            setInputCards("0, 1, 2, 3, 5, 8, 13, 21, 34, ?");
+          }}
+        />
+      </View>
+      <TextInput
+            style={[
+              styles.joinRoomInput,
+              {
+                height: buttonHeigth/2,
+                width: buttonWidth * 2,
+                fontSize: fontSizeScale * 0.02,
+              },
+            ]}
+            placeholder="Enter comma seperated symbols"
+            value={inputCards}
+            onChangeText={(text) => {
+              setInputCards(text);
+            }}
+          />
+        <Button
+          style={{ height: buttonHeigth, width: buttonWidth }}
+          title={"Create"}
+          onPress={async () => {
+            const roomCode = await createNewRoom(inputCards);
+            navigation.navigate("Room", { roomCode: roomCode });
+            setRoomDialogVisible(false);
+          }}
+        />
+        </View>
+      </Modal>
+
       <View style={styles.containerBody}>
         <Text style={[styles.textBody, { fontSize: fontSizeScale * 0.025 }]}>
           🍇🍏🍒🍍🍉🍅🥑
@@ -45,8 +101,7 @@ export default function HomeScreen({ navigation }) {
           style={{ height: buttonHeigth, width: buttonWidth }}
           title={"Create new room"}
           onPress={async () => {
-            const roomCode = await createNewRoom();
-            navigation.navigate("Room", { roomCode: roomCode });
+            setRoomDialogVisible(true);
           }}
         />
         <View style={styles.containerJoinRoom}>
@@ -79,6 +134,14 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  modalView: {
+    paddingTop: StatusBar.currentHeight,
+    padding: "2.5%",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    height: "100%"
+  },
   container: {
     paddingTop: StatusBar.currentHeight,
     padding: "2.5%",

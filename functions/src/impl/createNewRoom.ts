@@ -22,10 +22,22 @@ export const createNewRoom = functions
         roomExists = roomSnapshot.exists();
       }
 
+      let cards: string[] = [];
+
+      if (Object.prototype.hasOwnProperty.call(data, "cards") === false ||
+      data.cards === null ||
+      data.cards === "") {
+        cards = ["🍇", "🍏", "🍒", "🍍", "🍉", "🍅", "🥑"];
+      } else {
+        cards = data.cards.split(",").map((el: string) => {
+          return el.trim();
+        });
+      }
+
       await newRoomRef.update({
         createBy: context.auth.uid,
         gameState: 0,
-        cardValues: ["🍇", "🍏", "🍒", "🍍", "🍉", "🍅", "🥑"],
+        cardValues: cards,
       });
 
       const newRoomsNewUserRef = admin.database()
