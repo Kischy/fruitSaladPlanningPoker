@@ -6,9 +6,6 @@ name: Deploy to Firebase Hosting on merge
     push:
         branches:
             - main
-    pull_request:
-        branches:
-            - main
 jobs:
     build_and_deploy:
         runs-on: ubuntu-latest
@@ -33,10 +30,10 @@ jobs:
             - name: Build for Web
               working-directory: ./frontend
               run: expo build:web
-            # - uses: FirebaseExtended/action-hosting-deploy@v0
-            #   with:
-            #       repoToken: "${{ secrets.GITHUB_TOKEN }}"
-            #       firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FRUITSALADPLANNINGPOKER }}"
-            #       channelId: live
-            #       projectId: fruitsaladplanningpoker
+            - uses: FirebaseExtended/action-hosting-deploy@v0
+              with:
+                  repoToken: "${{ secrets.GITHUB_TOKEN }}"
+                  firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FRUITSALADPLANNINGPOKER }}"
+                  channelId: live
+                  projectId: fruitsaladplanningpoker
 
