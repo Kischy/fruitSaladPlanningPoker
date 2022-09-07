@@ -1,0 +1,6 @@
+jobs:
+    Deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: ./.github/workflows/build.yml
