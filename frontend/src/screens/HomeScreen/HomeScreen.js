@@ -109,6 +109,7 @@ export default function HomeScreen({ navigation }) {
             style={{ height: buttonHeigth, width: buttonWidth }}
             title={"Join room"}
             onPress={async () => {
+              if(!inputRoomCode) return;
               await addUserToExistingRoom(inputRoomCode);
               navigation.navigate("Room", { roomCode: inputRoomCode });
             }}
