@@ -31,10 +31,10 @@ export default function RoomScreen({ route, navigation }) {
     const roomRef = ref(db, '/rooms/' + roomCode);
     const userAreaRef = ref(db,'/rooms/' + roomCode + "/users/" + auth.currentUser.uid);
 
-    useEffect(async () => {
+    useEffect(() => {
         onValue(roomRef, sn => {
             setRoomState(sn.val());
-         });
+         });    
     },[]);
 
     const renderGameControlButton = () => {
