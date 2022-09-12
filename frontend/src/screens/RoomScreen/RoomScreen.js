@@ -11,6 +11,7 @@ import firebaseApp from "../../firebase/config"
 import { getDatabase, onValue, ref, update  } from 'firebase/database'
 import { getAuth  } from 'firebase/auth'
 import {get_value_by_ratio_triggers} from "./../../proportion"
+import shuffle_array from "../../utility/shuffle_array";
 
 const db = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp);
@@ -65,7 +66,7 @@ export default function RoomScreen({ route, navigation }) {
                 />
             );
         }
-        return cards;
+        return shuffle_array(cards);
         }
 
 
