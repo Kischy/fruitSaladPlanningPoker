@@ -7,7 +7,8 @@ import {
   Text,
   TextInput,
   Modal,
-  Linking
+  Linking,
+  Image
 } from "react-native";
 import { Pressable } from "react-native-web";
 import { TopBar, Button } from "../../components";
@@ -138,10 +139,17 @@ export default function HomeScreen({ navigation }) {
       </View>
       <View style={styles.containerBottom}>
         <View style={styles.containerBottomText}>
-          <Pressable onPress={() => {Linking.openURL('https://github.com/Kischy/fruitSaladPlanningPoker')}}>
-            <Text style={[styles.textBottom, { fontSize: fontSizeScale * 0.011 }]}>
+          <Pressable style={styles.gitHubLinkPressable} onPress={() => {Linking.openURL('https://github.com/Kischy/fruitSaladPlanningPoker')}}>
+            <Text style={[styles.textBottom, { fontSize: fontSizeScale * 0.011, marginRight: "0.3em" }]}>
               Visit this project on Github 
             </Text>
+            <Image
+                style={{
+                  height: height * 0.015,
+                  width: height  * 0.015,
+                }}
+                source={require("./img/GitHub-Mark-32px.png")}
+              />
           </Pressable>
         </View>
       </View>
@@ -181,11 +189,12 @@ const styles = StyleSheet.create({
     alignItems: "center",    
   },
   containerBottom: {
-    // height: "10%",
-    // width: "100%",
     marginTop: "auto",
-    // alignItems: "center",  
     flexDirection: "row"
+  },
+  gitHubLinkPressable: {
+    flexDirection: "row",
+    alignItems: "center",  
   },
   textBottom: {
     fontFamily: "Roboto_400Regular",
