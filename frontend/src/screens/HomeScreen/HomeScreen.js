@@ -6,7 +6,8 @@ import {
   StatusBar,
   Text,
   TextInput,
-  Modal
+  Modal,
+  Linking
 } from "react-native";
 import { Pressable } from "react-native-web";
 import { TopBar, Button } from "../../components";
@@ -136,12 +137,20 @@ export default function HomeScreen({ navigation }) {
         </View>
       </View>
       <View style={styles.containerBottom}>
+        <View style={styles.containerBottomText}>
+          <Pressable onPress={() => {Linking.openURL('https://github.com/Kischy/fruitSaladPlanningPoker')}}>
+            <Text style={[styles.textBottom, { fontSize: fontSizeScale * 0.011 }]}>
+              Visit this project on Github 
+            </Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+
   modalView: {
     paddingTop: StatusBar.currentHeight,
     padding: "2.5%",
@@ -175,8 +184,15 @@ const styles = StyleSheet.create({
     // height: "10%",
     // width: "100%",
     marginTop: "auto",
-    // alignItems: "center",    
-    backgroundColor: "red",
+    // alignItems: "center",  
+    flexDirection: "row"
+  },
+  textBottom: {
+    fontFamily: "Roboto_400Regular",
+    color: Colors.forestGreen,
+    textAlign: 'center',
+  },
+  containerBottomText: {
   },
   containerJoinRoom: {
     paddingTop: "1%",
