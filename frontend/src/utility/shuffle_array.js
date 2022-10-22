@@ -4,8 +4,7 @@
 // Fisher–Yates shuffle
 export default function shuffle_array(arr) {
   let current_ind = arr.length;
-  let random_ind;
-
+  
   while (current_ind != 0) {
     let random_ind = Math.floor(Math.random() * current_ind);
     current_ind--;
