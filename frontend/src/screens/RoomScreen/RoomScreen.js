@@ -80,6 +80,10 @@ export default function RoomScreen({ route, navigation }) {
             setFirstLoadOfRoom(false);
             return;
         }
+
+        if(currentGameState !== possGameStates.selectionPhase &&
+            currentGameState !== possGameStates.cardsRevealed) return;
+
         setDisableGameButton(true);
         setTimeout(() => {
             setDisableGameButton(false);
