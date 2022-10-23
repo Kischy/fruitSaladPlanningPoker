@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   useWindowDimensions,
@@ -9,8 +9,6 @@ import {
   Pressable
 } from "react-native";
 import { TopBar, Button } from "../../components";
-
-import Colors from "./../../colors/colors";
 
 export default function PrivacyPolicyScreen({ navigation }) {
   const { height, width } = useWindowDimensions();

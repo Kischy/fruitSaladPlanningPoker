@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, Image, StyleSheet, Pressable } from "react-native";
-import Colors from "./../../colors/colors";
+import Colors from "../../colors/colors";
 
 export default function Logo(props) {
   return (
