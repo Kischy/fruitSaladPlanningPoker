@@ -37,6 +37,12 @@ export default function RoomScreen({ route, navigation }) {
     const [roomState, setRoomState] = useState(null);  
     const [roomRef, setRoomRef] = useState(null);
     const [userAreaRef, setUserAreaRef] = useState(null);
+    const [selectedCards, setSelectedCards] = useState(null);
+
+    const unselectAllCards = async () => {
+        setSelectedCards(new Array(roomState.cardValues.length).fill(false))
+        await update(userAreaRef,{selectedCard: null});
+    }
 
     useEffect(() => {
         setFirstLoadOfRoom(true);
@@ -77,6 +83,7 @@ export default function RoomScreen({ route, navigation }) {
         if(currentGameState === null) return;
         if(firstLoadOfRoom === true) 
         {
+            unselectAllCards();
             setFirstLoadOfRoom(false);
             return;
         }
@@ -88,6 +95,11 @@ export default function RoomScreen({ route, navigation }) {
         setTimeout(() => {
             setDisableGameButton(false);
         }, 1000);
+
+        if(currentGameState === possGameStates.selectionPhase)
+        {
+            unselectAllCards();
+        }
       },[currentGameState])
 
 
@@ -145,10 +157,16 @@ export default function RoomScreen({ route, navigation }) {
                     <Cards
                         titles={roomState === null ? ["?"] : roomState.cardValues}
                         style={{ height: cardHeigth, width: cardWidth }}
-                        onSelect={async (title) => {
+                        onSelect={async (index, title) => {            
+                            let newSelectedCards = new Array(roomState.cardValues.length).fill(false);
+                            newSelectedCards[index] = title === null ? false : true;
+                            setSelectedCards([...newSelectedCards]);                            
                             if(userAreaRef === null) return;
                             await update(userAreaRef,{selectedCard: title});
                         }}
+                        clickable = {currentGameState === possGameStates.selectionPhase &&
+                                    currentGameState !== possGameStates.cardsRevealed}
+                        selectedCards={selectedCards}
                     ></Cards>
                 </View>
             </View>
