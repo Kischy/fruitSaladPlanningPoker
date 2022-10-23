@@ -4,19 +4,20 @@ import {
     useWindowDimensions,
     StyleSheet,
     StatusBar,
-    Text,
 } from "react-native";
 import { TopBar, Cards, Card, Button, BottomBar } from "../../components";
 import firebaseApp from "../../firebase/config"
-import { getDatabase, onValue, ref, update  } from 'firebase/database'
+import { getDatabase, onValue, ref, update, get  } from 'firebase/database'
 import { getAuth  } from 'firebase/auth'
 import {get_value_by_ratio_triggers} from "./../../proportion"
 import shuffle_array from "../../utility/shuffle_array";
 import Colors from "./../../colors/colors";
-
+import {
+    addUserToExistingRoom,
+  } from "../../firebase/callFirebaseCloudFunctions";
 
 const db = getDatabase(firebaseApp);
-const auth = getAuth(firebaseApp);
+const auth = getAuth(firebaseApp); 
 const possGameStates = {
     selectionPhase: 0,
     cardsRevealed: 1,
@@ -30,15 +31,33 @@ export default function RoomScreen({ route, navigation }) {
 
     const buttonWidth = width * 0.2;
     const buttonHeigth = height * 0.1;
-    const [roomState, setRoomState] = useState(null); 
-    const roomRef = ref(db, '/rooms/' + roomCode);
-    const userAreaRef = ref(db,'/rooms/' + roomCode + "/users/" + auth.currentUser.uid);
+    const [roomState, setRoomState] = useState(null);  
+    const [roomRef, setRoomRef] = useState(null);
+    const [userAreaRef, setUserAreaRef] = useState(null);
 
     useEffect(() => {
+        const addUserToRoom = async () => {            
+            await addUserToExistingRoom(roomCode);
+            setUserAreaRef(ref(db,'/rooms/' + roomCode + "/users/" + auth.currentUser.uid));   
+            setRoomRef(ref(db, '/rooms/' + roomCode));             
+          };
+
+        addUserToRoom();        
+    },[route]);
+
+    useEffect(() => {
+        if(roomRef === null) return;
+
+        const getInitialRoomState = async () => {
+            setRoomState((await get(roomRef)).val());
+        }        
+        getInitialRoomState();
+
         onValue(roomRef, sn => {
             setRoomState(sn.val());
-         });    
-    },[]);
+         });
+      }, [roomRef])
+
 
     const renderGameControlButton = () => {
         if(roomState === null) return;
@@ -48,6 +67,7 @@ export default function RoomScreen({ route, navigation }) {
             style={{ height: buttonHeigth, width: buttonWidth }}
             title={title}
             onPress={async () => {
+                if(roomRef === null) return;
                 await update(roomRef,{gameState: newGameState});
             }}/>);
     }
@@ -93,6 +113,7 @@ export default function RoomScreen({ route, navigation }) {
                         titles={roomState === null ? ["?"] : roomState.cardValues}
                         style={{ height: cardHeigth, width: cardWidth }}
                         onSelect={async (title) => {
+                            if(userAreaRef === null) return;
                             await update(userAreaRef,{selectedCard: title});
                         }}
                     ></Cards>

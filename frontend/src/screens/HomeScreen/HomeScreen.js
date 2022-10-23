@@ -12,7 +12,6 @@ import {
 import { TopBar, Button, BottomBar } from "../../components";
 import {
   createNewRoom,
-  addUserToExistingRoom,
 } from "../../firebase/callFirebaseCloudFunctions";
 import Colors from "./../../colors/colors";
 
@@ -115,7 +114,6 @@ export default function HomeScreen({ navigation }) {
             title={"Join room"}
             onPress={async () => {
               if(!inputRoomCode) return;
-              await addUserToExistingRoom(inputRoomCode);
               navigation.navigate("Room", { roomCode: inputRoomCode });
             }}
           />

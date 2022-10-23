@@ -9,7 +9,7 @@ import {
 import { Pressable } from "react-native-web";
 import Colors from "./../../colors/colors";
 
-export default function BottomBar(props ) {
+export default function BottomBar(props) {
   const navigation = props.navigation;
   const height = props.style.height;
   const width = props.style.width;
