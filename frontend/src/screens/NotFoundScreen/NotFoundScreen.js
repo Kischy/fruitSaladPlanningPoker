@@ -33,7 +33,7 @@ export default function NotFoundScreen({ navigation }) {
         navigation={navigation}
       />
       <View style={styles.containerBody}>
-        <Text style={stylesInner.headerText}>The page or room could not be found.</Text>
+        <Text style={stylesInner.headerText}>The page or room could not be found. Please try again.</Text>
       </View>
       <BottomBar         
             style={{ height: height, width: width }}

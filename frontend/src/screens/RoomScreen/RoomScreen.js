@@ -36,8 +36,13 @@ export default function RoomScreen({ route, navigation }) {
     const [userAreaRef, setUserAreaRef] = useState(null);
 
     useEffect(() => {
-        const addUserToRoom = async () => {            
-            await addUserToExistingRoom(roomCode);
+        const addUserToRoom = async () => {
+            try {            
+                await addUserToExistingRoom(roomCode);
+            }
+            catch(error) {
+                navigation.navigate("NotFound");
+            }
             setUserAreaRef(ref(db,'/rooms/' + roomCode + "/users/" + auth.currentUser.uid));   
             setRoomRef(ref(db, '/rooms/' + roomCode));             
           };
