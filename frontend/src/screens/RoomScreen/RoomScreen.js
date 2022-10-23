@@ -31,11 +31,15 @@ export default function RoomScreen({ route, navigation }) {
 
     const buttonWidth = width * 0.2;
     const buttonHeigth = height * 0.1;
+    const [disableGameButton, setDisableGameButton] = useState(false);
+    const [currentGameState, setCurrentGameState] = useState(null);
+    const [firstLoadOfRoom, setFirstLoadOfRoom] = useState(false);
     const [roomState, setRoomState] = useState(null);  
     const [roomRef, setRoomRef] = useState(null);
     const [userAreaRef, setUserAreaRef] = useState(null);
 
     useEffect(() => {
+        setFirstLoadOfRoom(true);
         const addUserToRoom = async () => {
             try {            
                 await addUserToExistingRoom(roomCode);
@@ -63,14 +67,34 @@ export default function RoomScreen({ route, navigation }) {
          });
       }, [roomRef])
 
+      useEffect(() => {
+        if(roomState === null) return;
+        if(roomState.hasOwnProperty("gameState") === false) return;
+        setCurrentGameState(roomState.gameState);
+      },[roomState])
+
+      useEffect(() => {
+        if(currentGameState === null) return;
+        if(firstLoadOfRoom === true) 
+        {
+            setFirstLoadOfRoom(false);
+            return;
+        }
+        setDisableGameButton(true);
+        setTimeout(() => {
+            setDisableGameButton(false);
+        }, 1000);
+      },[currentGameState])
+
 
     const renderGameControlButton = () => {
         if(roomState === null) return;
-        const title = roomState.gameState === possGameStates.selectionPhase ? "Reveal cards" : "Start new game";
-        const newGameState = roomState.gameState === possGameStates.selectionPhase ? possGameStates.cardsRevealed : possGameStates.selectionPhase;
+        const title = currentGameState === possGameStates.selectionPhase ? "Reveal cards" : "Start new game";
+        const newGameState = currentGameState === possGameStates.selectionPhase ? possGameStates.cardsRevealed : possGameStates.selectionPhase;
         return (<Button
             style={{ height: buttonHeigth, width: buttonWidth }}
             title={title}
+            disabled={disableGameButton}
             onPress={async () => {
                 if(roomRef === null) return;
                 await update(roomRef,{gameState: newGameState});
@@ -84,7 +108,7 @@ export default function RoomScreen({ route, navigation }) {
             cards.push(
                 <Card
                     key={key}
-                    title={roomState.gameState === possGameStates.cardsRevealed && value.hasOwnProperty("selectedCard") ? value.selectedCard : ""}
+                    title={currentGameState === possGameStates.cardsRevealed && value.hasOwnProperty("selectedCard") ? value.selectedCard : ""}
                     selected={value.hasOwnProperty("selectedCard") && value.selectedCard !== null ? true : false}
                     style={{
                         height: cardHeigth,
