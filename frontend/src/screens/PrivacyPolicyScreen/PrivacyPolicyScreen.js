@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ScrollView,
   View,
   useWindowDimensions,
   StyleSheet,
@@ -8,7 +9,9 @@ import {
   Linking,
   Pressable
 } from "react-native";
-import { TopBar, Button } from "../../components";
+import { TopBar } from "../../components";
+import Colors from "./../../colors/colors";
+
 
 export default function PrivacyPolicyScreen({ navigation }) {
   const { height, width } = useWindowDimensions();
@@ -31,7 +34,7 @@ export default function PrivacyPolicyScreen({ navigation }) {
   
 
   return (
-    <View style={[styles.container, { width: width, height: height }]}>
+    <ScrollView style={[styles.container, { width: width, height: height }]}>
       <StatusBar style="auto" />
       <TopBar
         style={{ height: height * 0.1, width: width }}
@@ -104,14 +107,14 @@ export default function PrivacyPolicyScreen({ navigation }) {
         Links to Other Websites
         </Text>  
         <Text style={stylesInner.paragraphText}>          
-        This Website Service may contain links to other websites that are not operated by me. If You click on a third party link, You will be directed to that third party's site. I strongly advise You to review the Privacy Policy of every site You visit.{"\n"}{"\n"}
+        This Website Service may contain links to other websites that are not operated by me. If You click on a third party link, You will be directed to that third party's site. I strongly advise You to reScrollView the Privacy Policy of every site You visit.{"\n"}{"\n"}
         I have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
         </Text>       
         <Text style={stylesInner.headerText}>
         Changes to this Privacy Policy
         </Text>  
         <Text style={stylesInner.paragraphText}>          
-        I may update this Websites Privacy Policy from time to time. I will notify You of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
+        I may update this Websites Privacy Policy from time to time. I will notify You of any changes by posting the new Privacy Policy on this page. You are advised to reScrollView this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
         </Text> 
         <Text style={stylesInner.headerText}>
         Contact Me
@@ -120,7 +123,7 @@ export default function PrivacyPolicyScreen({ navigation }) {
         If you have any questions about this Privacy Policy, You can contact me by email: fruitsaladestimation@gmail.com
        </Text>  
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
     padding: "2.5%",
     flexDirection: "column",
     display: "flex",
-    backgroundColor: "white"
+    backgroundColor: Colors.backgroundGreyTone,
   },
   containerBody: {
     width: "100%",

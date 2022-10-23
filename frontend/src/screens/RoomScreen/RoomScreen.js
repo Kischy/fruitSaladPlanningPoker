@@ -6,7 +6,7 @@ import {
     StatusBar,
     Text,
 } from "react-native";
-import { TopBar, Cards, Card, Button } from "../../components";
+import { TopBar, Cards, Card, Button, BottomBar } from "../../components";
 import firebaseApp from "../../firebase/config"
 import { getDatabase, onValue, ref, update  } from 'firebase/database'
 import { getAuth  } from 'firebase/auth'
@@ -98,6 +98,9 @@ export default function RoomScreen({ route, navigation }) {
                     ></Cards>
                 </View>
             </View>
+            <BottomBar         
+            style={{ height: height, width: width }}
+            navigation={navigation}/>
         </View>
     );
 }

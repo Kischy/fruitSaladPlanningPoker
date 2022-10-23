@@ -7,11 +7,9 @@ import {
   Text,
   TextInput,
   Modal,
-  Linking,
-  Image
+  Pressable
 } from "react-native";
-import { Pressable } from "react-native-web";
-import { TopBar, Button } from "../../components";
+import { TopBar, Button, BottomBar } from "../../components";
 import {
   createNewRoom,
   addUserToExistingRoom,
@@ -44,7 +42,7 @@ export default function HomeScreen({ navigation }) {
       >
         <View style={[styles.closeModalView]}>
             <Pressable onPress={() => setRoomDialogVisible(false)}>
-              <Text style={{fontSize: fontSizeScale * 0.025 }} >X</Text>
+              <Text style={{fontSize: fontSizeScale * 0.025, color: Colors.forestGreen }} >X</Text>
             </Pressable>
         </View> 
         <View style={[styles.modalView]}> 
@@ -137,25 +135,9 @@ export default function HomeScreen({ navigation }) {
           />
         </View>
       </View>
-      <View style={styles.containerBottom}>
-        <Pressable style={styles.gitHubLinkPressable} onPress={() => {Linking.openURL('https://github.com/Kischy/fruitSaladPlanningPoker')}}>
-          <Text style={[styles.textBottom, { fontSize: fontSizeScale * 0.011, marginRight: "0.3em" }]}>
-            Visit this project on Github 
-          </Text>
-          <Image
-              style={{
-                height: height * 0.015,
-                width: height  * 0.015,
-              }}
-              source={require("./img/GitHub-Mark-32px.png")}
-            />
-        </Pressable>
-        <Pressable style={styles.linkToPrivacyStatement} onPress={() => {navigation.navigate("PrivacyPolicy");}} >
-            <Text style={[styles.textBottom, { fontSize: fontSizeScale * 0.011, marginRight: "0.3em" }]}>
-              Privacy statement
-            </Text>
-          </Pressable>
-      </View>
+      <BottomBar         
+      style={{ height: height, width: width }}
+      navigation={navigation}/>
     </View>
   );
 }
@@ -180,8 +162,8 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
     padding: "2.5%",
     flexDirection: "column",
-    display: "flex",
-    backgroundColor: Colors.backgroundGreyTone
+    flexGrow: 1, 
+    backgroundColor: Colors.backgroundGreyTone,
   },
   containerBody: {
     width: "100%",
@@ -191,27 +173,6 @@ const styles = StyleSheet.create({
   containerButtons: {
     paddingTop: "1%",
     alignItems: "center",    
-  },
-  containerBottom: {
-    justifyContent:"space-between",
-    marginTop: "auto",
-    flexDirection: "row"
-  },
-  gitHubLinkPressable: {
-    flexDirection: "row",
-    alignItems: "center",  
-  },
-  linkToPrivacyStatement: {
-    alignSelf: "flex-end",
-    flexDirection: "row",
-    alignItems: "center",  
-  },
-  textBottom: {
-    fontFamily: "Roboto_400Regular",
-    color: Colors.forestGreen,
-    textAlign: 'center',
-  },
-  containerBottomText: {
   },
   containerJoinRoom: {
     paddingTop: "1%",

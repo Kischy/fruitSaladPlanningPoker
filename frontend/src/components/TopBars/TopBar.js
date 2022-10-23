@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexWrap: "wrap",
+    backgroundColor: Colors.backgroundGreyTone
   },
   mainText: {
     fontFamily: "RobotoMono_400Regular",
