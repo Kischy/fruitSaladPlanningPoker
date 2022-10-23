@@ -12,6 +12,8 @@ import { getDatabase, onValue, ref, update  } from 'firebase/database'
 import { getAuth  } from 'firebase/auth'
 import {get_value_by_ratio_triggers} from "./../../proportion"
 import shuffle_array from "../../utility/shuffle_array";
+import Colors from "./../../colors/colors";
+
 
 const db = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp);
@@ -104,6 +106,9 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: StatusBar.currentHeight,
         padding: "2.5%",
+        flexDirection: "column",
+        display: "flex",
+        backgroundColor: Colors.backgroundGreyTone
     },
     containerBody: {
         width: "100%",

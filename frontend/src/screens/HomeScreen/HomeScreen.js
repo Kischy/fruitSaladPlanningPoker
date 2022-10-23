@@ -150,7 +150,7 @@ export default function HomeScreen({ navigation }) {
               source={require("./img/GitHub-Mark-32px.png")}
             />
         </Pressable>
-        <Pressable style={styles.linkToPrivacyStatement} >
+        <Pressable style={styles.linkToPrivacyStatement} onPress={() => {navigation.navigate("PrivacyPolicy");}} >
             <Text style={[styles.textBottom, { fontSize: fontSizeScale * 0.011, marginRight: "0.3em" }]}>
               Privacy statement
             </Text>
@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
     padding: "2.5%",
     flexDirection: "column",
     display: "flex",
+    backgroundColor: Colors.backgroundGreyTone
   },
   containerBody: {
     width: "100%",
