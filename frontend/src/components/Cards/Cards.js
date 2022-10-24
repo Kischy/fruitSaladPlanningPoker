@@ -4,25 +4,25 @@ import Card from "../Card/Card";
 import { View } from "react-native-web";
 
 export default function Cards(props) {
-    const modes = {
-        onlyOneSelebtable: 0,
-    };
-    const mode = modes.onlyOneSelebtable;
     const titles = props.titles !== undefined ? props.titles : [];  
     const onSelect = props.onSelect !== undefined ? props.onSelect : null;  
-    const [selected, setSelected] = useState(
-        new Array(titles.length).fill(false)
-    );
+    const clickable = props.clickable !== undefined ? props.clickable : true;   
+    const selected = props.selectedCards !== undefined && props.selectedCards !== null
+     ? props.selectedCards : new Array(titles.length).fill(false);   
+    
+    if(selected.length != titles.length)
+    {
+        throw "Titles and selected cards array must have same length";
+    }
 
     const clickCard = (index) => {
-        let newSelected = selected;
-        if (mode === modes.onlyOneSelebtable) {
-            newSelected = new Array(titles.length).fill(false);
+        if(selected[index] === false) {
+            onSelect(index, titles[index])
         }
-        newSelected[index] = !selected[index];
-        setSelected([...newSelected]);
-        if(newSelected[index] && onSelect !== null) onSelect(titles[index]);
-        else if(newSelected[index] == false && onSelect !== null) onSelect(null);
+        else {
+            onSelect(index, null)
+        }
+        return;
     };
 
     const renderCards = () => {
@@ -39,6 +39,7 @@ export default function Cards(props) {
                         width: props.style.width,
                     }}
                     onPress={() => {
+                        if(clickable === false) return;
                         clickCard(i);
                     }}
                 />

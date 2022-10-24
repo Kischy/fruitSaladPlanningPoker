@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import Logo from "../logo/Logo";
+import Logo from "../Logo/Logo";
 import Colors from "./../../colors/colors";
 
 
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexWrap: "wrap",
+    backgroundColor: Colors.backgroundGreyTone
   },
   mainText: {
     fontFamily: "RobotoMono_400Regular",

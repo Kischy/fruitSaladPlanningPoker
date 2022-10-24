@@ -6,12 +6,12 @@ import {
   StatusBar,
   Text,
   TextInput,
-  Modal
+  Modal,
+  Pressable
 } from "react-native";
-import { TopBar, Button } from "../../components";
+import { TopBar, Button, BottomBar } from "../../components";
 import {
   createNewRoom,
-  addUserToExistingRoom,
 } from "../../firebase/callFirebaseCloudFunctions";
 import Colors from "./../../colors/colors";
 
@@ -39,8 +39,12 @@ export default function HomeScreen({ navigation }) {
         visible={roomDialogVisible}
         onRequestClose={() => { setRoomDialogVisible(false); }}
       >
-        <View style={[styles.modalView]}>
-
+        <View style={[styles.closeModalView]}>
+            <Pressable onPress={() => setRoomDialogVisible(false)}>
+              <Text style={{fontSize: fontSizeScale * 0.025, color: Colors.forestGreen }} >X</Text>
+            </Pressable>
+        </View> 
+        <View style={[styles.modalView]}> 
           <Text style={[styles.textBody, { fontSize: fontSizeScale * 0.025 }]}>Create new room</Text>
           <View style={{ padding: "1%", flexDirection: "row" }}>
             <Button
@@ -110,8 +114,7 @@ export default function HomeScreen({ navigation }) {
             title={"Join room"}
             onPress={async () => {
               if(!inputRoomCode) return;
-              await addUserToExistingRoom(inputRoomCode);
-              navigation.navigate("Room", { roomCode: inputRoomCode });
+              navigation.push("Room", { roomCode: inputRoomCode });
             }}
           />
           <TextInput
@@ -130,11 +133,15 @@ export default function HomeScreen({ navigation }) {
           />
         </View>
       </View>
+      <BottomBar         
+      style={{ height: height, width: width }}
+      navigation={navigation}/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+
   modalView: {
     paddingTop: StatusBar.currentHeight,
     padding: "2.5%",
@@ -143,9 +150,18 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: "100%"
   },
+  closeModalView: {
+    margin: "2.5%",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    flexDirection: "row",
+  },
   container: {
     paddingTop: StatusBar.currentHeight,
     padding: "2.5%",
+    flexDirection: "column",
+    flexGrow: 1, 
+    backgroundColor: Colors.backgroundGreyTone,
   },
   containerBody: {
     width: "100%",
@@ -154,7 +170,7 @@ const styles = StyleSheet.create({
   },
   containerButtons: {
     paddingTop: "1%",
-    alignItems: "center",
+    alignItems: "center",    
   },
   containerJoinRoom: {
     paddingTop: "1%",
