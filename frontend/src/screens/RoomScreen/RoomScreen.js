@@ -44,6 +44,15 @@ export default function RoomScreen({ route, navigation }) {
         await update(userAreaRef,{selectedCard: null});
     }
 
+    const reselectPreviouslySelectedCard = async () => {
+        const userData = (await get(userAreaRef)).val();
+        if(userData.hasOwnProperty("selectedCard") == false) return;
+        let newSelectedCards = new Array(roomState.cardValues.length).fill(false);
+        const selectedIndex = roomState.cardValues.indexOf(userData.selectedCard);
+        newSelectedCards[selectedIndex] = true;
+        setSelectedCards([...newSelectedCards]);
+    }
+
     useEffect(() => {
         setFirstLoadOfRoom(true);
         const addUserToRoom = async () => {
@@ -83,7 +92,7 @@ export default function RoomScreen({ route, navigation }) {
         if(currentGameState === null) return;
         if(firstLoadOfRoom === true) 
         {
-            unselectAllCards();
+            reselectPreviouslySelectedCard();
             setFirstLoadOfRoom(false);
             return;
         }

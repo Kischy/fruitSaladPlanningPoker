@@ -114,7 +114,7 @@ export default function HomeScreen({ navigation }) {
             title={"Join room"}
             onPress={async () => {
               if(!inputRoomCode) return;
-              navigation.navigate("Room", { roomCode: inputRoomCode });
+              navigation.push("Room", { roomCode: inputRoomCode });
             }}
           />
           <TextInput
