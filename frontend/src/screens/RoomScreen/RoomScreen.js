@@ -32,6 +32,7 @@ export default function RoomScreen({ route, navigation }) {
     const buttonWidth = width * 0.2;
     const buttonHeigth = height * 0.1;
     const [disableGameButton, setDisableGameButton] = useState(false);
+    const [shuffleOtherUsersCards, setShuffleOtherUsersCards] = useState(false);
     const [currentGameState, setCurrentGameState] = useState(null);
     const [firstLoadOfRoom, setFirstLoadOfRoom] = useState(false);
     const [roomState, setRoomState] = useState(null);  
@@ -108,7 +109,13 @@ export default function RoomScreen({ route, navigation }) {
         if(currentGameState === possGameStates.selectionPhase)
         {
             unselectAllCards();
+            setShuffleOtherUsersCards(false);
         }
+        else if(currentGameState === possGameStates.cardsRevealed)
+        {
+            setShuffleOtherUsersCards(true);
+        }
+
       },[currentGameState])
 
 
@@ -126,7 +133,7 @@ export default function RoomScreen({ route, navigation }) {
             }}/>);
     }
 
-    const renderOtherUsersCards = () => {
+    const renderOtherUsersCards = (shuffleCards) => {
         if(roomState === null) return [];
         const cards = [];
         for (const [key, value] of Object.entries(roomState.users)) {
@@ -142,7 +149,7 @@ export default function RoomScreen({ route, navigation }) {
                 />
             );
         }
-        return shuffle_array(cards);
+        return shuffleCards ? shuffle_array(cards) : cards;
         }
 
 
@@ -157,7 +164,7 @@ export default function RoomScreen({ route, navigation }) {
             />
             <View style={styles.containerBody}>
                 <View style={styles.containerBodyTop}>
-                    {renderOtherUsersCards()}
+                    {renderOtherUsersCards(shuffleOtherUsersCards)}
                 </View>
                 <View style={styles.containerBodyMiddle}>
                     {renderGameControlButton()}
