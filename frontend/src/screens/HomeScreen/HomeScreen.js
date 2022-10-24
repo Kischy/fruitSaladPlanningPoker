@@ -82,7 +82,7 @@ export default function HomeScreen({ navigation }) {
             title={"Create"}
             onPress={async () => {
               const roomCode = await createNewRoom(inputCards);
-              navigation.navigate("Room", { roomCode: roomCode });
+              navigation.push("Room", { roomCode: roomCode });
               setRoomDialogVisible(false);
             }}
           />
