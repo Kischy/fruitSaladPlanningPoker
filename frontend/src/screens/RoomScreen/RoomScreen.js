@@ -14,7 +14,7 @@ import shuffle_array from "../../utility/shuffle_array";
 import Colors from "./../../colors/colors";
 import {
     addUserToExistingRoom,
-  } from "../../firebase/callFirebaseCloudFunctions";
+  } from "../../firebase/callFirebaseCloudFunctionss";
 
 const db = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp); 
