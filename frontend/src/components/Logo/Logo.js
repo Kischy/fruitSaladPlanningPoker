@@ -29,11 +29,11 @@ export default function Logo(props) {
           </Text>
           <Text
             style={[
-              styles.fruitPlaningPokerText,
+              styles.fruitPlanningPokerText,
               { fontSize: props.style.height * 0.25 },
             ]}
           >
-            Fruit salad planing poker
+            Fruit salad planning poker
           </Text>
         </View>
       </View>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     color: Colors.textRed,
   },
 
-  fruitPlaningPokerText: {
+  fruitPlanningPokerText: {
     fontFamily: "Roboto_400Regular",
     height: "30%",
     color: Colors.forestGreen,
