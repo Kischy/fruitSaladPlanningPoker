@@ -1,5 +1,7 @@
 # Fruit salad planning poker
-Fruit salad planning poker is a private just for fun project that I use to get to know firebase and React Native for Web. It is a planning poker for agile development, that is inspired by the fruit salad method. One can also pick values of cards that are not fruit related.
+Fruit salad planning poker is a private just for fun project that I use to get to know firebase and React Native for Web. It is a planning poker for agile development, that is inspired by the fruit salad method. Here is an example of what a room looks like.
+![Alt Text](./FruitSaladPlaningPokerExample.gif)
+One can also select custom card values at this time.
 # Contributing guide & future plans
 So, you want to contribute or play around a bit? The code in this repo is in the state that I would call "It works". It is in no way perfect nor well structured. The code of the Room or the Home Screen is one big file that I want to refactor in the future. The Room, I think, should be turned into a state machine, so one needs to identify the states and transitions between them. On the one hand I wish I would have used TypeScript and not JavaScript for this to work nicely. On the other hand it will be a fun thing to implement it in JavaScript.
 
@@ -18,6 +20,7 @@ In the following table you find a description of the directories/files and a des
 | .gitignore | Gitignore file
 | database.rules.json | Rules for the firebase realtime database. Here one defines what a user of the website can access and what the user can't access
 | firebase.json | Deployment file of firebase.
+| FruitSaladPlaningPokerExample.gif | The gif used in this readme
 | README.md | This readme file
 
 ## Frontend
