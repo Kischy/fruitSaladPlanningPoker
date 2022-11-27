@@ -15,3 +15,8 @@ export async function addUserToExistingRoom(roomCode) {
   await signInAnonymously(auth);
   await httpsCallable(functions, "addUserToExistingRoom")({ room: roomCode });
 }
+
+export async function clearAllCardsOfExistingRoom(roomCode) {
+  await signInAnonymously(auth);
+  await httpsCallable(functions, "clearAllCardsOfExistingRoom")({ room: roomCode });
+}

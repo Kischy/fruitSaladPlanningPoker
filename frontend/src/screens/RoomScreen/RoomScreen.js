@@ -14,6 +14,7 @@ import shuffle_array from "../../utility/shuffle_array";
 import Colors from "./../../colors/colors";
 import {
     addUserToExistingRoom,
+    clearAllCardsOfExistingRoom,
   } from "../../firebase/callFirebaseCloudFunctions";
 
 const db = getDatabase(firebaseApp);
@@ -32,6 +33,7 @@ export default function RoomScreen({ route, navigation }) {
     const buttonWidth = width * 0.2;
     const buttonHeigth = height * 0.1;
     const [disableGameButton, setDisableGameButton] = useState(false);
+    const [clearRoomsCards, setClearRoomsCards] = useState(false);
     const [shuffleOtherUsersCards, setShuffleOtherUsersCards] = useState(false);
     const [currentGameState, setCurrentGameState] = useState(null);
     const [firstLoadOfRoom, setFirstLoadOfRoom] = useState(false);
@@ -42,7 +44,10 @@ export default function RoomScreen({ route, navigation }) {
 
     const unselectAllCards = async () => {
         setSelectedCards(new Array(roomState.cardValues.length).fill(false))
-        await update(userAreaRef,{selectedCard: null});
+        if(clearRoomsCards) {
+            await clearAllCardsOfExistingRoom(roomCode);
+            setClearRoomsCards(false);
+        }
     }
 
     const reselectPreviouslySelectedCard = async () => {
@@ -129,6 +134,9 @@ export default function RoomScreen({ route, navigation }) {
             disabled={disableGameButton}
             onPress={async () => {
                 if(roomRef === null) return;
+                if (newGameState === possGameStates.selectionPhase) {
+                    setClearRoomsCards(true);
+                }
                 await update(roomRef,{gameState: newGameState});
             }}/>);
     }
