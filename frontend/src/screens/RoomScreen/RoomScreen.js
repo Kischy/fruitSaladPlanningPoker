@@ -14,7 +14,12 @@ import shuffle_array from "../../utility/shuffle_array";
 import Colors from "./../../colors/colors";
 import {
     addUserToExistingRoom,
+    clearAllCardsOfExistingRoom,
   } from "../../firebase/callFirebaseCloudFunctions";
+
+import {
+    makeSpectatorOnDisconnectFromRoom,
+  } from "../../firebase/onDisconnectFunctions";
 
 const db = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp); 
@@ -32,6 +37,7 @@ export default function RoomScreen({ route, navigation }) {
     const buttonWidth = width * 0.2;
     const buttonHeigth = height * 0.1;
     const [disableGameButton, setDisableGameButton] = useState(false);
+    const [clearRoomsCards, setClearRoomsCards] = useState(false);
     const [shuffleOtherUsersCards, setShuffleOtherUsersCards] = useState(false);
     const [currentGameState, setCurrentGameState] = useState(null);
     const [firstLoadOfRoom, setFirstLoadOfRoom] = useState(false);
@@ -42,7 +48,10 @@ export default function RoomScreen({ route, navigation }) {
 
     const unselectAllCards = async () => {
         setSelectedCards(new Array(roomState.cardValues.length).fill(false))
-        await update(userAreaRef,{selectedCard: null});
+        if(clearRoomsCards) {
+            await clearAllCardsOfExistingRoom(roomCode);
+            setClearRoomsCards(false);
+        }
     }
 
     const reselectPreviouslySelectedCard = async () => {
@@ -64,7 +73,7 @@ export default function RoomScreen({ route, navigation }) {
                 navigation.navigate("NotFound");
             }
             setUserAreaRef(ref(db,'/rooms/' + roomCode + "/users/" + auth.currentUser.uid));   
-            setRoomRef(ref(db, '/rooms/' + roomCode));             
+            setRoomRef(ref(db, '/rooms/' + roomCode));   
           };
 
         addUserToRoom();        
@@ -82,6 +91,11 @@ export default function RoomScreen({ route, navigation }) {
             setRoomState(sn.val());
          });
       }, [roomRef])
+
+      useEffect(() => {
+        if(userAreaRef === null) return;
+        makeSpectatorOnDisconnectFromRoom(userAreaRef);
+      }, [userAreaRef])
 
       useEffect(() => {
         if(roomState === null) return;
@@ -129,6 +143,9 @@ export default function RoomScreen({ route, navigation }) {
             disabled={disableGameButton}
             onPress={async () => {
                 if(roomRef === null) return;
+                if (newGameState === possGameStates.selectionPhase) {
+                    setClearRoomsCards(true);
+                }
                 await update(roomRef,{gameState: newGameState});
             }}/>);
     }
@@ -137,6 +154,7 @@ export default function RoomScreen({ route, navigation }) {
         if(roomState === null) return [];
         const cards = [];
         for (const [key, value] of Object.entries(roomState.users)) {
+            if(value.isSpectator !== null && value.isSpectator) continue;
             cards.push(
                 <Card
                     key={key}
