@@ -17,6 +17,10 @@ import {
     clearAllCardsOfExistingRoom,
   } from "../../firebase/callFirebaseCloudFunctions";
 
+import {
+    makeSpectatorOnDisconnectFromRoom,
+  } from "../../firebase/onDisconnectFunctions";
+
 const db = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp); 
 const possGameStates = {
@@ -69,7 +73,7 @@ export default function RoomScreen({ route, navigation }) {
                 navigation.navigate("NotFound");
             }
             setUserAreaRef(ref(db,'/rooms/' + roomCode + "/users/" + auth.currentUser.uid));   
-            setRoomRef(ref(db, '/rooms/' + roomCode));             
+            setRoomRef(ref(db, '/rooms/' + roomCode));   
           };
 
         addUserToRoom();        
@@ -87,6 +91,11 @@ export default function RoomScreen({ route, navigation }) {
             setRoomState(sn.val());
          });
       }, [roomRef])
+
+      useEffect(() => {
+        if(userAreaRef === null) return;
+        makeSpectatorOnDisconnectFromRoom(userAreaRef);
+      }, [userAreaRef])
 
       useEffect(() => {
         if(roomState === null) return;
@@ -145,6 +154,7 @@ export default function RoomScreen({ route, navigation }) {
         if(roomState === null) return [];
         const cards = [];
         for (const [key, value] of Object.entries(roomState.users)) {
+            if(value.isSpectator !== null && value.isSpectator) continue;
             cards.push(
                 <Card
                     key={key}
