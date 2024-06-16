@@ -25,7 +25,7 @@ jobs:
               run: npm install --force
             - name: Install dependencies - functions
               working-directory: ./functions
-              run: npm install
+              run: npm install --force
             - name: Build for Web
               working-directory: ./frontend
               run: expo build:web
