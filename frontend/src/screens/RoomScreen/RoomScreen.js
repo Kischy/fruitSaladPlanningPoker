@@ -206,7 +206,7 @@ export default function RoomScreen({ route, navigation }) {
                                     currentGameState !== possGameStates.cardsRevealed}
                         selectedCards={selectedCards}
                     ></Cards> :
-                    <Text style={[styles.text,{ fontSize: fontSizeScale * 0.015}]}>Loading room, please wait ...</Text>
+                    <Text style={[styles.text,{ fontSize: fontSizeScale * 0.015, paddingTop: "15%"}]}>Loading room, please wait ...</Text>
                     }
                 </View>
             </View>
@@ -243,9 +243,12 @@ const styles = StyleSheet.create({
     },
     containerBodyBottom: {
         width: "100%",
+        flexDirection: "row",
+        justifyContent:"center",
+
     },
     text: {
-        color: Colors.forestGreen,
+        color: "black",
         fontFamily: "Roboto_400Regular",
     },
 });
