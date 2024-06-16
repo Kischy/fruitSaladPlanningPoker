@@ -8,25 +8,25 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: 🏗 Setup Node
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
-                  node-version: 16.x
+                  node-version: 20
             - name: 🏗 Setup Expo
-              uses: expo/expo-github-action@v7
+              uses: expo/expo-github-action@v8
               with:
                   expo-version: latest
             - name: Install dependencies - frontend
               working-directory: ./frontend
-              run: npm install
+              run: npm install --force
             - name: Install dependencies - functions
               working-directory: ./functions
-              run: npm install
+              run: npm install --force
             - name: Build for Web
               working-directory: ./frontend
-              run: expo build:web
+              run: npx expo export --platform web
             - uses: FirebaseExtended/action-hosting-deploy@v0
               with:
                   repoToken: "${{ secrets.GITHUB_TOKEN }}"
