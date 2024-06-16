@@ -4,6 +4,7 @@ import {
     useWindowDimensions,
     StyleSheet,
     StatusBar,
+    Text,
 } from "react-native";
 import { TopBar, Cards, Card, Button, BottomBar } from "../../components";
 import firebaseApp from "../../firebase/config"
@@ -30,6 +31,7 @@ const possGameStates = {
 
 export default function RoomScreen({ route, navigation }) {
     const { height, width } = useWindowDimensions();
+    const fontSizeScale = 0.75 * (height + width);
     const roomCode = route.params.roomCode;
     const cardWidth = width * get_value_by_ratio_triggers([0.175,0.15,0.125,0.085,0.065]);
     const cardHeigth = cardWidth * 2.0;
@@ -188,8 +190,10 @@ export default function RoomScreen({ route, navigation }) {
                     {renderGameControlButton()}
                 </View>
                 <View style={styles.containerBodyBottom}>
+                    {
+                    roomState !== null ?
                     <Cards
-                        titles={roomState === null ? ["?"] : roomState.cardValues}
+                        titles={roomState.cardValues}
                         style={{ height: cardHeigth, width: cardWidth }}
                         onSelect={async (index, title) => {            
                             let newSelectedCards = new Array(roomState.cardValues.length).fill(false);
@@ -201,7 +205,9 @@ export default function RoomScreen({ route, navigation }) {
                         clickable = {currentGameState === possGameStates.selectionPhase &&
                                     currentGameState !== possGameStates.cardsRevealed}
                         selectedCards={selectedCards}
-                    ></Cards>
+                    ></Cards> :
+                    <Text style={[styles.text,{ fontSize: fontSizeScale * 0.015}]}>Loading room, please wait ...</Text>
+                    }
                 </View>
             </View>
             <BottomBar         
@@ -237,5 +243,9 @@ const styles = StyleSheet.create({
     },
     containerBodyBottom: {
         width: "100%",
+    },
+    text: {
+        color: Colors.forestGreen,
+        fontFamily: "Roboto_400Regular",
     },
 });
